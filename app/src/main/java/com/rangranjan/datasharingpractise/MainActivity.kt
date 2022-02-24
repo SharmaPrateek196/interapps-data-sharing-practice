@@ -1,8 +1,7 @@
 package com.rangranjan.datasharingpractise
 
 import android.content.Intent
-import android.content.Intent.ACTION_SEND
-import android.content.Intent.EXTRA_STREAM
+import android.content.Intent.*
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
@@ -41,6 +40,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        handleIncomingIntent()
+
         setContent {
             DataSharingPractiseTheme {
                 // A surface container using the 'background' color from the theme
@@ -70,6 +72,16 @@ class MainActivity : ComponentActivity() {
                             ))
                         }
                     }
+                }
+            }
+        }
+    }
+
+    private fun handleIncomingIntent() {
+        intent?.let {
+            if(intent.action == ACTION_SEND) {
+                if(intent.type == "text/plain") {
+                    editTextString.value = intent.getStringExtra(EXTRA_TEXT) ?: "Something went wrong"
                 }
             }
         }
